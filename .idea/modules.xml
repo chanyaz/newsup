@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://E:/GreedyGames/.idea/GreedyGames.iml" filepath="E:/GreedyGames/.idea/GreedyGames.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../.idea/NewsApp.iml" filepath="$PROJECT_DIR$/../.idea/NewsApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/NewsUp.iml" filepath="$PROJECT_DIR$/.idea/NewsUp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Pure python/.idea/Pure python.iml" filepath="$PROJECT_DIR$/../Pure python/.idea/Pure python.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../TriggerKimono/.idea/TriggerKimono.iml" filepath="$PROJECT_DIR$/../TriggerKimono/.idea/TriggerKimono.iml" />
+      <module fileurl="file://E:/greenfieldIBPSPlato/.idea/greenfieldIBPSPlato.iml" filepath="E:/greenfieldIBPSPlato/.idea/greenfieldIBPSPlato.iml" />
+    </modules>
+  </component>
+</project>

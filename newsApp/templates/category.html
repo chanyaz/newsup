@@ -1,0 +1,71 @@
+<!--[if lt IE 9]> 
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <!-- <link href="{{ STATIC_URL }}cssw/normalize.css" rel="stylesheet">
+     <link href="{{ STATIC_URL }}cssw/foundation.css" rel="stylesheet"> -->
+     <script src="{{ STATIC_URL }}jsw/jquery.js"></script>
+     <script src="{{ STATIC_URL }}jsw/modernizr.js"></script>
+     
+       
+       
+</head>
+<body style=" height:100%; margin:9%;overflow: auto;">
+
+                
+<!-- {% for obj in newsDictList %}
+    				<div> Small Image :<img src="{{obj.smallImage}}"/></div><br/>
+    				<p> Title : {{obj.title}} </p><br/>
+    				{% autoescape off %}<p>Summary : {{obj.summary}} </p>{% endautoescape %}<br/>
+    				<div> Large Image : <img src="{{obj.largeImage}}"/><br/></div><br/> 
+    				{% autoescape off %}<p> Article: {{obj.newsArticle}} </p>{% endautoescape %}<br/>
+    				<a href="{{obj.link}}">Read More </a><br/>
+    				<p>Published on: {{obj.published}} </p>
+    				<p>-------------------------------- </p>
+    				<br/>
+    				<br/>
+    		    {% endfor %} -->  
+     
+      
+      <!-- For loadNewsForCategoryScreen(lang, category, maxClusterId) --> 
+     
+     {% for obj in newsDictList %} 
+     <div style="font-size: 16px;border-color: gray;border: medium;;;border-style: solid;margin:2%;">
+     IMAGE: <img src="{{obj.Thumbnail}}"/></br></br>
+     TITLE: {{obj.Title}}</br></br>
+     SUMMARY:{{obj.Summary}}</br></br>
+     LINK: <a href="{{obj.URL}}" target="_blank">{{obj.URL}} </a><br/></br>
+     SOURCE: {{obj.Source}}</br></br>
+     PUBLISHED ON: {{obj.Published_Date}}</br></br>
+     Cluster Id: {{obj.Cluster_Id}}</br>
+     </div>
+     <!-- Also here display similar clustered articles in smaller font -->
+     {% for key,value in similarNewsDict.items %} 
+      {% ifequal key obj.Cluster_Id %}
+     
+     {% for row in value %} 
+     
+     <div style="font-size: 12px;border-color: gray;border: thin;border-style: dotted;margin:2%">
+     IMAGE: <img src="{{row.Thumbnail}}"/></br></br>
+     TITLE: {{row.Title}}</br></br>
+     SUMMARY:{{row.Summary}}</br></br>
+     LINK: <a href="{{row.URL}}" target="_blank">{{row.URL}} </a><br/></br>
+     SOURCE: {{row.Source}}</br></br>
+     PUBLISHED ON: new Date({{row.Published_Date}})</br></br>
+     Cluster Id: {{row.Cluster_Id}}</br></br>
+     </div>
+     {% endfor %}
+     {% endifequal %}
+     {% endfor %}
+     {% if forloop.counter|divisibleby:5 %}
+     <p>-------------------------</p>     
+ {% endif %}
+{% endfor %}
+
+</body>
+</html>
+

@@ -1,0 +1,1964 @@
+from django.contrib import admin
+from django.contrib.auth.models import User
+from django.db import models
+from django.forms import ModelForm
+from random import randint
+from django.utils import timezone
+# Create your models here.
+
+
+
+class News_Source(models.Model):
+    Name = models.CharField(max_length=70)
+    def __unicode__(self):
+        return '%s' % (self.Name)
+
+class Language(models.Model):
+    Name = models.CharField(max_length=15)
+    def __unicode__(self):
+        return '%s' % (self.Name)
+
+class News_Category(models.Model):
+    Name = models.CharField(max_length=20)
+    def __unicode__(self):
+        return '%s' % (self.Name)
+        
+class News_Feed(models.Model):
+    Language = models.ForeignKey(Language)
+    Category = models.ForeignKey(News_Category)
+    URL = models.URLField(max_length=500)
+    Source = models.ForeignKey(News_Source)
+    Type = models.CharField(max_length=20,default='RSS 2.0')
+    
+    def __unicode__(self):
+        return '%s %s %s %s' % (self.Language,self.Category,self.URL,self.Source)
+
+
+class Video_Source(models.Model):
+    Name = models.CharField(max_length=70)
+    def __unicode__(self):
+        return '%s' % (self.Name)
+
+class Video_Channel(models.Model):
+    Language = models.ForeignKey(Language)
+    Category = models.ForeignKey(News_Category)
+    Channel_Id = models.CharField(max_length=100)
+    Source = models.ForeignKey(Video_Source)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Language,self.Category,self.Source)
+
+
+
+class News_Article_Archive(models.Model):
+    Language = models.ForeignKey(Language,db_index=True)
+    Category = models.ForeignKey(News_Category,db_index=True)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Current_Date=models.DateTimeField()
+    Archive_Date=models.DateTimeField(auto_now_add=True)
+    Is_New = models.BooleanField(default=False)
+    Cluster_Id = models.IntegerField(db_index=True)
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Language,self.Category,self.URL)
+
+class News_Article(models.Model):
+    Language = models.ForeignKey(Language,db_index=True)
+    Category = models.ForeignKey(News_Category,db_index=True)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Current_Date=models.DateTimeField(auto_now_add=True)
+    Is_New = models.BooleanField(default=False)
+    
+    def __unicode__(self):
+        return '%s %s %s' % (self.Language,self.Category,self.URL)
+        
+
+
+class English_Economy_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s ' % (self.Title,self.URL,self.Source)
+
+class English_Sports_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Top_Stories_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_World_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Opinion_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Health_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Lifestyle_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Entertainment_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Technology_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Politics_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s ' % (self.Title,self.URL,self.Source)
+
+class English_Environment_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Books_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Travel_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Science_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Business_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Stocks_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Food_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Weekend_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Fashion_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Economy_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Sports_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Top_Stories_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_World_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Opinion_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Health_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Lifestyle_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Entertainment_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Technology_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Politics_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Environment_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Books_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Travel_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Science_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Business_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Stocks_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Food_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Weekend_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Fashion_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Mumbai_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Mumbai_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Pune_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Pune_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Nagpur_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Nasik_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Aurangabad_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Solapur_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Kolhapur_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Satara_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Sangli_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Akola_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Ahmednagar_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Jalgaon_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Goa_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Chandrapur_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Wardha_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Maharashtra_Rerun(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+
+
+class TopN_News_Article(models.Model):
+    Language = models.ForeignKey(Language)
+    Category = models.ForeignKey(News_Category)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Language,self.URL,self.Source,self.Title)
+
+class TopN_English(models.Model):
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class TopN_Marathi(models.Model):
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+
+class English_Politics(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s ' % (self.Title,self.URL,self.Source)
+
+class English_Economy(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Sports(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Top_Stories(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_World(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Opinion(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Health(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Lifestyle(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Entertainment(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Technology(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Environment(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Books(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Travel(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Science(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Business(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Stocks(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Food(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Weekend(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Fashion(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Economy(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Sports(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Top_Stories(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_World(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Opinion(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Health(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Lifestyle(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Entertainment(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Technology(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Politics(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Environment(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Books(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Travel(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Science(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Business(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Stocks(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Food(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Weekend(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Fashion(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Mumbai(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Mumbai(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Pune(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Pune(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Nagpur(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Nasik(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Aurangabad(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Solapur(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Kolhapur(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Satara(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Sangli(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Akola(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Ahmednagar(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Jalgaon(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Goa(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Chandrapur(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Wardha(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Maharashtra(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Article = models.ForeignKey(News_Article)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(News_Source)
+    Published_Date=models.DateTimeField()
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+
+
+
+
+
+class News_Video(models.Model):
+    Language = models.ForeignKey(Language,db_index=True)
+    Category = models.ForeignKey(News_Category,db_index=True)
+    VideoId = models.CharField(max_length=100)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(Video_Source)
+    Published_Date= models.DateTimeField()
+    Current_Date = models.DateTimeField(auto_now_add=True)
+    Duration = models.CharField(max_length=50)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Language,self.Category,self.URL)
+
+class English_Top_Stories_Video(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Video = models.ForeignKey(News_Video)
+    VideoId = models.CharField(max_length=100)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(Video_Source)
+    Published_Date=models.DateTimeField()
+    Duration = models.CharField(max_length=50)
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Entertainment_Video(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Video = models.ForeignKey(News_Video)
+    VideoId = models.CharField(max_length=100)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(Video_Source)
+    Published_Date=models.DateTimeField()
+    Duration = models.CharField(max_length=50)
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Sports_Video(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Video = models.ForeignKey(News_Video)
+    VideoId = models.CharField(max_length=100)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(Video_Source)
+    Published_Date=models.DateTimeField()
+    Duration = models.CharField(max_length=50)
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Top_Stories_Video(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Video = models.ForeignKey(News_Video)
+    VideoId = models.CharField(max_length=100)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(Video_Source)
+    Published_Date=models.DateTimeField()
+    Duration = models.CharField(max_length=50)
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Entertainment_Video(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Video = models.ForeignKey(News_Video)
+    VideoId = models.CharField(max_length=100)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(Video_Source)
+    Published_Date=models.DateTimeField()
+    Duration = models.CharField(max_length=50)
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class Marathi_Sports_Video(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Video = models.ForeignKey(News_Video)
+    VideoId = models.CharField(max_length=100)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(Video_Source)
+    Published_Date=models.DateTimeField()
+    Duration = models.CharField(max_length=50)
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_World_Video(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Video = models.ForeignKey(News_Video)
+    VideoId = models.CharField(max_length=100)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(Video_Source)
+    Published_Date=models.DateTimeField()
+    Duration = models.CharField(max_length=50)
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Business_Video(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Video = models.ForeignKey(News_Video)
+    VideoId = models.CharField(max_length=100)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(Video_Source)
+    Published_Date=models.DateTimeField()
+    Duration = models.CharField(max_length=50)
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Lifestyle_Video(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Video = models.ForeignKey(News_Video)
+    VideoId = models.CharField(max_length=100)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(Video_Source)
+    Published_Date=models.DateTimeField()
+    Duration = models.CharField(max_length=50)
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Health_Video(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Video = models.ForeignKey(News_Video)
+    VideoId = models.CharField(max_length=100)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(Video_Source)
+    Published_Date=models.DateTimeField()
+    Duration = models.CharField(max_length=50)
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class English_Fashion_Video(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Video = models.ForeignKey(News_Video)
+    VideoId = models.CharField(max_length=100)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(Video_Source)
+    Published_Date=models.DateTimeField()
+    Duration = models.CharField(max_length=50)
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+class English_Technology_Video(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Video = models.ForeignKey(News_Video)
+    VideoId = models.CharField(max_length=100)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(Video_Source)
+    Published_Date=models.DateTimeField()
+    Duration = models.CharField(max_length=50)
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+class English_Environment_Video(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Video = models.ForeignKey(News_Video)
+    VideoId = models.CharField(max_length=100)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(Video_Source)
+    Published_Date=models.DateTimeField()
+    Duration = models.CharField(max_length=50)
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+class English_Science_Video(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Video = models.ForeignKey(News_Video)
+    VideoId = models.CharField(max_length=100)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(Video_Source)
+    Published_Date=models.DateTimeField()
+    Duration = models.CharField(max_length=50)
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+class English_Food_Video(models.Model):
+    Cluster_Id = models.IntegerField(db_index=True)
+    Video = models.ForeignKey(News_Video)
+    VideoId = models.CharField(max_length=100)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(Video_Source)
+    Published_Date=models.DateTimeField()
+    Duration = models.CharField(max_length=50)
+    Is_Rep = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+
+
+class TopN_English_Video(models.Model):
+    Video = models.ForeignKey(News_Video)
+    VideoId = models.CharField(max_length=100)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(Video_Source)
+    Published_Date=models.DateTimeField()
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)
+
+class TopN_Marathi_Video(models.Model):
+    Video = models.ForeignKey(News_Video)
+    VideoId = models.CharField(max_length=100)
+    URL = models.URLField(max_length=300)
+    Title = models.CharField(max_length=100)
+    Summary = models.CharField(max_length=300)
+    Thumbnail = models.URLField(max_length=300,null=True,blank=True)
+    Source = models.ForeignKey(Video_Source)
+    Published_Date=models.DateTimeField()
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.Title,self.URL,self.Source)

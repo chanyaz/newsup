@@ -1,0 +1,429 @@
+from newsApp.Utils import *
+from newsApp.youtube import *
+from newsApp.userConstants import *
+import logging
+
+logger = logging.getLogger('django_crontab')
+def my_scheduled_job_daily():
+    
+    try:
+        clusterOnLanguageCategory(MARATHI,TOP_STORIES,DELTA_HOURS_TWELVE)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterOnLanguageCategory(ENGLISH,TOP_STORIES,DELTA_HOURS_TWELVE)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(MARATHI,MAHARASHTRA,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterOnLanguageCategory(ENGLISH,ENTERTAINMENT,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(MARATHI,ENTERTAINMENT,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterOnLanguageCategory(ENGLISH,SPORTS,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterOnLanguageCategory(MARATHI,SPORTS,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(MARATHI,OPINION,DELTA_HOURS_FOURTY_EIGHT)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterOnLanguageCategory(MARATHI,WORLD,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(MARATHI,MUMBAI,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(MARATHI,PUNE,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(MARATHI,NAGPUR,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(MARATHI,NASIK,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(MARATHI,AURANGABAD,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(MARATHI,SOLAPUR,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+    try:
+        insertWithoutClustering(MARATHI,KOLHAPUR,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+    try:
+        insertWithoutClustering(MARATHI,SATARA,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+    try:
+        insertWithoutClustering(MARATHI,SANGLI,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+    try:
+        insertWithoutClustering(MARATHI,AKOLA,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+    try:
+        insertWithoutClustering(MARATHI,AHMEDNAGAR,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+    try:
+        insertWithoutClustering(MARATHI,JALGAON,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+    try:
+        insertWithoutClustering(MARATHI,GOA,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+    try:
+        insertWithoutClustering(MARATHI,CHANDRAPUR,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+    try:
+        insertWithoutClustering(MARATHI,WARDHA,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterOnLanguageCategory(ENGLISH,POLITICS,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterOnLanguageCategory(ENGLISH,WORLD,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)    
+    try:
+        clusterOnLanguageCategory(ENGLISH,ECONOMY,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterOnLanguageCategory(ENGLISH,HEALTH,DELTA_HOURS_FOURTY_EIGHT)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterOnLanguageCategory(ENGLISH,LIFESTYLE,DELTA_HOURS_FOURTY_EIGHT)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterOnLanguageCategory(ENGLISH,TECHNOLOGY,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterOnLanguageCategory(ENGLISH,ENVIRONMENT,DELTA_HOURS_FOURTY_EIGHT)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterOnLanguageCategory(ENGLISH,TRAVEL,DELTA_HOURS_FOURTY_EIGHT)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterOnLanguageCategory(ENGLISH,SCIENCE,DELTA_HOURS_FOURTY_EIGHT)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterOnLanguageCategory(ENGLISH,BUSINESS,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterOnLanguageCategory(ENGLISH,STOCKS,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(ENGLISH,FOOD,DELTA_HOURS_FOURTY_EIGHT)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterOnLanguageCategory(ENGLISH,FASHION,DELTA_HOURS_FOURTY_EIGHT)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    
+    try:
+        insertWithoutClustering(MARATHI,HEALTH,DELTA_HOURS_FOURTY_EIGHT)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(MARATHI,LIFESTYLE,DELTA_HOURS_FOURTY_EIGHT)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterOnLanguageCategory(MARATHI,BUSINESS,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(ENGLISH,OPINION,DELTA_HOURS_FOURTY_EIGHT)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(ENGLISH,MUMBAI,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(ENGLISH,PUNE,DELTA_DAYS_ONE)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    
+
+def my_scheduled_job_hourly():
+    try:
+        clusterWithNewDocument(ENGLISH,STOCKS,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterWithNewDocument(ENGLISH,BUSINESS,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterWithNewDocument(ENGLISH,ENTERTAINMENT,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(MARATHI,ENTERTAINMENT,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(MARATHI,MAHARASHTRA,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterWithNewDocument(MARATHI,SPORTS,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterWithNewDocument(MARATHI,WORLD,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterWithNewDocument(ENGLISH,POLITICS,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterWithNewDocument(ENGLISH,WORLD,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterWithNewDocument(ENGLISH,ECONOMY,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterWithNewDocument(ENGLISH,SPORTS,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(ENGLISH,OPINION,DELTA_HOURS_FOURTY_EIGHT)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(MARATHI,OPINION,DELTA_HOURS_FOURTY_EIGHT)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterWithNewDocument(ENGLISH,HEALTH,DELTA_HOURS_FOURTY_EIGHT)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterWithNewDocument(ENGLISH,LIFESTYLE,DELTA_HOURS_FOURTY_EIGHT)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterWithNewDocument(ENGLISH,TECHNOLOGY,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterWithNewDocument(ENGLISH,ENVIRONMENT,DELTA_HOURS_FOURTY_EIGHT)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterWithNewDocument(ENGLISH,TRAVEL,DELTA_HOURS_FOURTY_EIGHT)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterWithNewDocument(ENGLISH,SCIENCE,DELTA_HOURS_FOURTY_EIGHT)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(ENGLISH,FOOD,DELTA_HOURS_FOURTY_EIGHT)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterWithNewDocument(ENGLISH,FASHION,DELTA_HOURS_FOURTY_EIGHT)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(MARATHI,HEALTH,DELTA_HOURS_FOURTY_EIGHT)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(MARATHI,LIFESTYLE,DELTA_HOURS_FOURTY_EIGHT)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterWithNewDocument(MARATHI,BUSINESS,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+    try:
+        insertWithoutClustering(ENGLISH,MUMBAI,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+    try:
+        insertWithoutClustering(ENGLISH,PUNE,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(MARATHI,MUMBAI,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(MARATHI,PUNE,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(MARATHI,NAGPUR,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(MARATHI,NASIK,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(MARATHI,AURANGABAD,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        insertWithoutClustering(MARATHI,SOLAPUR,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+    try:
+        insertWithoutClustering(MARATHI,KOLHAPUR,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+    try:
+        insertWithoutClustering(MARATHI,SATARA,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+    try:
+        insertWithoutClustering(MARATHI,SANGLI,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+    try:
+        insertWithoutClustering(MARATHI,AKOLA,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+    try:
+        insertWithoutClustering(MARATHI,AHMEDNAGAR,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+    try:
+        insertWithoutClustering(MARATHI,JALGAON,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+    try:
+        insertWithoutClustering(MARATHI,GOA,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+    try:
+        insertWithoutClustering(MARATHI,CHANDRAPUR,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+    try:
+        insertWithoutClustering(MARATHI,WARDHA,DELTA_HOURS_TWENTY_FOUR)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+def my_scheduled_job_TopN():
+    try:
+        createTopN(MARATHI)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+    try:
+        createTopN(ENGLISH)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+def my_scheduled_job_delete_TopN():
+    try:
+        deleteLangCategoryTable(ENGLISH, TOPN)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+    try:
+        deleteLangCategoryTable(MARATHI, TOPN)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+def my_scheduled_job_delete_article():
+    try:
+        deleteArticleTable(DELTA_DAYS_SEVEN)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+def my_scheduled_job_Top_News():
+
+    try:
+        clusterOnLanguageCategory(MARATHI,TOP_STORIES,DELTA_HOURS_TWELVE)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        clusterOnLanguageCategory(ENGLISH,TOP_STORIES,DELTA_HOURS_TWELVE)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+
+def my_scheduled_job_Video():
+    try:
+        getVideoForLanguageCategory(ENGLISH,TOP_STORIES,DELTA_HOURS_TWELVE)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        getVideoForLanguageCategory(ENGLISH,ENTERTAINMENT,DELTA_HOURS_TWELVE)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        getVideoForLanguageCategory(ENGLISH,SPORTS,DELTA_HOURS_TWELVE)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        getVideoForLanguageCategory(MARATHI,TOP_STORIES,DELTA_HOURS_TWELVE)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)
+    try:
+        getVideoForLanguageCategory(MARATHI,ENTERTAINMENT,DELTA_HOURS_TWELVE)
+    except Exception, e:
+        logger.exception("You have an exception :%s",e.args)

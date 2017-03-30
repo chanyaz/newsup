@@ -1,0 +1,236 @@
+# -*- coding: utf-8 -*-
+from django.http import HttpResponse
+from django.shortcuts import render_to_response
+from Utils import *
+from youtube import *
+from userConstants import *
+from django.template.context import RequestContext
+from simplejson import dumps
+from models import *
+import logging
+from django.utils.datastructures import MultiValueDictKeyError
+from loadNews import *
+from django.core.exceptions import ObjectDoesNotExist
+
+logger = logging.getLogger('django')
+
+def insertLanguageCategory(request):
+
+
+
+
+
+
+    clusterOnLanguageCategory(HINDI,SPORTS,DELTA_HOURS_TWENTY_FOUR)
+    clusterOnLanguageCategory(HINDI,TOP_STORIES,DELTA_HOURS_TWELVE)
+    clusterOnLanguageCategory(HINDI,WORLD,DELTA_HOURS_TWENTY_FOUR)
+    insertWithoutClustering(HINDI,OPINION,DELTA_HOURS_TWENTY_FOUR)
+    insertWithoutClustering(HINDI,HEALTH,DELTA_HOURS_TWENTY_FOUR)
+    insertWithoutClustering(HINDI,LIFESTYLE,DELTA_HOURS_TWENTY_FOUR)
+    insertWithoutClustering(HINDI,ENTERTAINMENT,DELTA_HOURS_TWENTY_FOUR)
+    clusterOnLanguageCategory(HINDI,TECHNOLOGY,DELTA_HOURS_TWENTY_FOUR)
+    clusterOnLanguageCategory(HINDI,AUTO,DELTA_HOURS_TWENTY_FOUR)
+    clusterOnLanguageCategory(HINDI,POLITICS,DELTA_HOURS_TWENTY_FOUR)
+    insertWithoutClustering(HINDI,ENVIRONMENT,DELTA_HOURS_TWENTY_FOUR)
+    insertWithoutClustering(HINDI,TRAVEL,DELTA_HOURS_TWENTY_FOUR)
+    insertWithoutClustering(HINDI,SCIENCE,DELTA_HOURS_TWENTY_FOUR)
+    clusterOnLanguageCategory(HINDI,BUSINESS,DELTA_HOURS_TWENTY_FOUR)
+    insertWithoutClustering(HINDI,FOOD,DELTA_HOURS_TWENTY_FOUR)
+    clusterOnLanguageCategory(HINDI,FASHION,DELTA_HOURS_TWENTY_FOUR)
+    insertWithoutClustering(HINDI,CRIME,DELTA_HOURS_TWENTY_FOUR)
+
+
+
+
+
+    return HttpResponse("Hello world")
+
+def TopN(request):
+    logger.info("Entered TopN ")
+    deleteLangCategoryTable(MARATHI, TOPN)
+    createTopN(MARATHI)
+    deleteLangCategoryTable(ENGLISH, TOPN)
+    createTopN(ENGLISH)
+    logger.info("Exited TopN ")
+    return HttpResponse("Hello world")
+
+def insertVideoLanguageCategory(request):
+
+    getVideoForLanguageCategory(ENGLISH,TOP_STORIES,DELTA_HOURS_TWELVE)
+    '''getVideoForLanguageCategory(ENGLISH,ENTERTAINMENT,DELTA_HOURS_THREE_SIXTY)
+    getVideoForLanguageCategory(ENGLISH,SPORTS,DELTA_HOURS_THREE_SIXTY)
+    getVideoForLanguageCategory(MARATHI,TOP_STORIES,DELTA_HOURS_TWELVE)
+    getVideoForLanguageCategory(MARATHI,ENTERTAINMENT,DELTA_HOURS_THREE_SIXTY)
+
+    getVideoForLanguageCategory(ENGLISH,WORLD,DELTA_HOURS_TWENTY_FOUR)
+    getVideoForLanguageCategory(ENGLISH,BUSINESS,DELTA_HOURS_TWENTY_FOUR)
+    getVideoForLanguageCategory(ENGLISH,LIFESTYLE,DELTA_HOURS_THREE_SIXTY)
+    getVideoForLanguageCategory(ENGLISH,HEALTH,DELTA_HOURS_THREE_SIXTY)
+    getVideoForLanguageCategory(ENGLISH,FASHION,DELTA_HOURS_THREE_SIXTY)
+    getVideoForLanguageCategory(ENGLISH,TECHNOLOGY,DELTA_HOURS_THREE_SIXTY)
+    getVideoForLanguageCategory(ENGLISH,ENVIRONMENT,DELTA_HOURS_THREE_SIXTY)
+    getVideoForLanguageCategory(ENGLISH,SCIENCE,DELTA_HOURS_THREE_SIXTY)
+    getVideoForLanguageCategory(ENGLISH,FOOD,DELTA_HOURS_THREE_SIXTY)'''
+
+    #getVideoForLanguageCategory(MARATHI,SPORTS)
+    return HttpResponse("Hello world insertVideoLanguageCategory is done")
+
+def sourceNews(request):
+    if request.method == "GET":
+        try:
+            lang=request.GET['language']
+        except MultiValueDictKeyError:
+            lang=ENGLISH
+        try:
+            category=request.GET['category']
+        except MultiValueDictKeyError:
+            category=TOP_STORIES
+        sourceId=int(request.GET['sourceid'])
+        newsDictList=loadNewsForSourceNews(lang, category,sourceId)
+        return HttpResponse(dumps(newsDictList,ensure_ascii=True), content_type="application/json")
+
+
+
+
+
+
+
+
+
+#These methods are API METHODS. The app user will directly call them ---------------------------
+
+def loadNewsForHome(request):
+  if request.method == "GET":
+       lang=request.GET['language']
+       categoryString=request.GET['category']
+       categoryList=categoryString.split(",")
+       newsDictList=loadNewsForHomeScreen(lang,categoryList)
+       userDict={'newsDictList':newsDictList}
+       return HttpResponse(dumps(userDict,ensure_ascii=True), content_type="application/json")
+
+def loadNewsForCategory1(request):
+
+   lang="English"
+   category="Economy"
+   maxClusterId=0
+   similarNewsDict={}
+   newsDictList=loadNewsForCategoryScreen(lang, category, maxClusterId)
+   # also get similar news articles
+   for articles in newsDictList:
+
+        clusterId=articles['Cluster_Id']
+        similarNewsDict[clusterId]=getSimilarNewsArticles(lang, category, clusterId)
+
+   userDict={'newsDictList':newsDictList,
+             'similarNewsDict':similarNewsDict}
+   return render_to_response('category.html', userDict,context_instance=RequestContext(request))
+
+def loadSimilarNews(request):
+    if request.method == "GET":
+       lang=request.GET['language']
+       category=request.GET['category']
+       clusterId=request.GET['clusterid']
+       userDict=getSimilarNewsArticles(lang, category, clusterId)
+       return HttpResponse(dumps(userDict,ensure_ascii=True), content_type="application/json")
+
+def loadNewsForCategory(request):
+    if request.method == "GET":
+        try:
+            lang=request.GET['language']
+        except MultiValueDictKeyError:
+            lang=ENGLISH
+        try:
+            category=request.GET['category']
+        except MultiValueDictKeyError:
+            category=TOP_STORIES
+        try:
+            maxClusterId=int(request.GET['maxclusterid'])
+        except MultiValueDictKeyError:
+            maxClusterId=0
+        similarNewsDict={}
+        newsDictList=loadNewsForCategoryScreen(lang, category, maxClusterId)
+        #return render_to_response('category.html', newsDictList,context_instance=RequestContext(request))
+        return HttpResponse(dumps(newsDictList,ensure_ascii=True), content_type="application/json")
+
+def loadTopN(request):
+    #logger.info("Entered loadTopN ")
+    if request.method == "GET":
+        try:
+            lang=request.GET['language']
+        except MultiValueDictKeyError:
+            lang=ENGLISH
+        userDict = getSimilarTopN(lang)
+        return HttpResponse(dumps(userDict,ensure_ascii=True), content_type="application/json")
+
+def loadTopNVideo(request):
+    #logger.info("Entered loadTopN ")
+    if request.method == "GET":
+        try:
+            lang=request.GET['language']
+        except MultiValueDictKeyError:
+            lang=ENGLISH
+        userDict = getSimilarTopNVideo(lang)
+        return HttpResponse(dumps(userDict,ensure_ascii=True), content_type="application/json")
+
+def loadVideoForCategory(request):
+    if request.method == "GET":
+        try:
+            lang=request.GET['language']
+        except MultiValueDictKeyError:
+            lang=ENGLISH
+        try:
+            category=request.GET['category']
+        except MultiValueDictKeyError:
+            category=TOP_STORIES
+        try:
+            maxClusterId=int(request.GET['maxclusterid'])
+        except MultiValueDictKeyError:
+            maxClusterId=0
+        if not maxClusterId:
+        # this means that the request is for the first time
+            maxClusterId=0
+        limit=CATEGORY_VIDEO_LIMIT
+        newsDictList=getVideoForCategoryScreen(lang, category, limit, maxClusterId)
+        return HttpResponse(dumps(newsDictList,ensure_ascii=True), content_type="application/json")
+
+def isVideoAvailable(request):
+    if request.method == "GET":
+        lang=request.GET['language']
+        category=request.GET['category']
+    found = 0
+    for dict in videoLangCatList:
+        if found == 0:
+            if dict['lang'].lower() == lang.lower():
+                if dict['category'].lower() == category.lower():
+                    found = 1
+    isVideoPresent ={}
+    isVideoPresent['isPresent'] = found
+    return HttpResponse(dumps(isVideoPresent,ensure_ascii=True), content_type="application/json")
+
+def loadNewsForCategoryNew(request):
+    if request.method == "GET":
+        try:
+            lang=request.GET['language']
+        except MultiValueDictKeyError:
+            lang=ENGLISH
+        try:
+            category=request.GET['category']
+        except MultiValueDictKeyError:
+            category=TOP_STORIES
+        try:
+            maxClusterId=int(request.GET['maxclusterid'])
+        except MultiValueDictKeyError:
+            maxClusterId=0
+        similarNewsDict={}
+        newsDictList=loadNewsForCategoryScreenNew(lang, category, maxClusterId)
+        #return render_to_response('category.html', newsDictList,context_instance=RequestContext(request))
+        return HttpResponse(dumps(newsDictList,ensure_ascii=True), content_type="application/json")
+
+def loadSimilarNewsNew(request):
+    if request.method == "GET":
+       lang=request.GET['language']
+       category=request.GET['category']
+       clusterId=request.GET['clusterid']
+       print lang,category,clusterId
+       userDict=getSimilarNewsArticlesNew(lang, category, clusterId)
+       return HttpResponse(dumps(userDict,ensure_ascii=True), content_type="application/json")
